@@ -17,7 +17,7 @@ function intfix_to_postfix($expr)
     $result = [];
     $arr_expr = preg_split("/\b|(?<=\W)(?=\W)/", $expr, -1, PREG_SPLIT_NO_EMPTY);
     for ($i = 0; $i < count($arr_expr); $i++) {
-        switch ($arr_expr[$i]) {
+            switch ($arr_expr[$i]) {
             case "(":
                 $stack[] = $arr_expr[$i];
                 break;
@@ -37,13 +37,13 @@ function intfix_to_postfix($expr)
                 } else {
                     if (operators(end($stack)) > operators($arr_expr[$i])) {
                         $result[] = array_pop($stack);
-                    } else {
-                        $stack[] = $arr_expr[$i];
                     }
+                    $stack[] = $arr_expr[$i];
                 }
                 break;
             default:
                 $result[] = $arr_expr[$i];
+                break;
         }
     }
     while (!empty($stack)) {
@@ -56,8 +56,15 @@ function eval_expr($expr)
 {
     $arr_expr = intfix_to_postfix($expr);
     for ($i = 0; $i < count($arr_expr); $i++) {
+        var_dump($arr_expr);  
         if (is_numeric($arr_expr[$i])) {
             continue;
+        }
+        if (count($arr_expr) <= 2){
+            break;
+        }     
+        if (isset($arr_expr[$i + 1]) && $arr_expr[$i] === "-" && $arr_expr[$i + 1] === $arr_expr[$i]){
+            unset($arr_expr[$i + 1]);
         }
         switch ($arr_expr[$i]) {
             case "+":
