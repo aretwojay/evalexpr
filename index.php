@@ -64,6 +64,7 @@ function eval_expr($expr)
             break;
         }     
         if (isset($arr_expr[$i + 1]) && $arr_expr[$i] === "-" && $arr_expr[$i + 1] === $arr_expr[$i]){
+            $arr_expr[$i] = "+";
             unset($arr_expr[$i + 1]);
         }
         switch ($arr_expr[$i]) {
